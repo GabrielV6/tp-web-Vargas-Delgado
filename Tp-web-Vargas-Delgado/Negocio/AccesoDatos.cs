@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.ComponentModel;
 
 namespace Negocio
 {
@@ -23,7 +24,7 @@ namespace Negocio
         {
             //ESTEF: server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true            
             //GABI: Data Source = .; Initial Catalog=CATALOGO_DB; integrated security=true
-            conexion = new SqlConnection("Data Source =.; database=CATALOGO_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true");
             comando = new SqlCommand();
         }
 
@@ -33,6 +34,10 @@ namespace Negocio
             comando.CommandText = consulta;
         }
 
+        public void setearProcedimiento(string sp) {
+            comando.CommandType = System.Data.CommandType.StoredProcedure;
+            comando.CommandText = sp;
+        }
         public void ejecutarLectura()
         {
             comando.Connection = conexion;

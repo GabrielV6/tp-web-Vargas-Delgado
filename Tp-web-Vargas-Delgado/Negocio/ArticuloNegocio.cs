@@ -52,6 +52,43 @@ namespace Negocio
             } 
         }
 
+        public List<Articulo> listarConSP() {
+            
+                List<Articulo> lista = new List<Articulo>();
+                AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("storedListar");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Articulo aux = new Articulo();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Codigo = (string)datos.Lector["Codigo"];
+                    aux.Nombre = (string)datos.Lector["Telefono"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    // agrego esta validacion solo aca porque me parece que deberia ser el unico campo de tendria que aceptar NULL
+                    if (!(datos.Lector["ImagenURL"] is DBNull))
+                        aux.ImagenUrl = (string)datos.Lector["ImagenURL"];
+
+                    aux.marca = new Marca();
+                    aux.marca.Id = (int)datos.Lector["IdMarca"];
+                    aux.marca.DescripcionMarca = (string)datos.Lector["Modelo"];
+                    aux.categoria = new Categoria();
+                    aux.categoria.Id = (int)datos.Lector["IdCategoria"];
+                    aux.categoria.Descripcion = (string)datos.Lector["Tipo"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         // Posee la sentencia SQL para generar el INSERT desde el metodo alojado en la clase AccesoDatos
         public void agregar(Articulo articulo)
         {

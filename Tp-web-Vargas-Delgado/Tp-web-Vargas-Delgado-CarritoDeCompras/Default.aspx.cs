@@ -15,8 +15,13 @@ namespace Tp_web_Vargas_Delgado_CarritoDeCompras
         protected void Page_Load(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
-            dgvArticulos.DataSource = negocio.listarConSP();
-            dgvArticulos.DataBind();
+            ListaArticulo = negocio.listarConSP();
+
+            if (!IsPostBack)
+            {
+                Repeater1.DataSource = ListaArticulo;
+                Repeater1.DataBind();
+            }           
         }
     }
 }
